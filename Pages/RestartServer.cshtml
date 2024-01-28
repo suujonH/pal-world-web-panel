@@ -1,0 +1,43 @@
+﻿@page
+@model RestartServerModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <table class="table">
+        <tr>
+        <tr colspan="4">
+                @if (Model.hasUnsavedChanges)
+                {
+                <div>Has unsaved changes.</div>
+                }
+                else
+                {
+                <div></div>
+                }
+        </tr>
+        </tr>
+        <thead>
+            <tr>
+                <th>Online Players: @(Model.ClientList.Count() - 1)</th>
+                <th>PalService Mem(GB): @((Model.PalServiceMem / 1024 / 1024 / 1024).ToString("F1"))</th>
+                <th>Available Physical Memory(GB): @((Model.AvailablePhysicalMemory / 1024 / 1024).ToString("F1")) / @((Model.TotalPhysicalMemory / 1024 / 1024).ToString("F1"))</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var client in Model.ClientList)
+            {
+                <tr>
+                    @foreach (var value in client.Split(','))
+                    {
+                        <td>@value</td>
+                    }
+                </tr>
+            }
+        </tbody>
+        <form method="post" action="/RestartServer">
+            <button type="submit" class="btn btn-primary">Restart Server</button>
+        </form>
+    </table>
+</div>

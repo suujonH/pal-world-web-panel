@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <_PublishTargetUrl>D:\Workspace\Repositories\PalWebControl\bin\Release\net8.0\publish\</_PublishTargetUrl>
+    <History>True|2024-01-28T07:16:23.0588965Z;True|2024-01-28T16:15:49.7831646+09:00;False|2024-01-28T16:15:32.2294889+09:00;True|2024-01-28T16:15:10.5024427+09:00;True|2024-01-28T16:14:25.9133814+09:00;True|2024-01-28T16:13:46.7528148+09:00;True|2024-01-28T16:06:57.5859773+09:00;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+</Project>

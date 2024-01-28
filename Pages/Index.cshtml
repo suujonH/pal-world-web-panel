@@ -1,0 +1,111 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<style>
+    td {
+        text-align: left; /* 设置单元格内容居左对齐 */
+    }
+</style>
+
+<script>
+    function validateInput(inputElement) {
+        var inputName = inputElement.name;
+        var inputValue = inputElement.value;
+
+        fetch('/Index?handler=CheckValid&name=' + inputName + '&value=' + encodeURIComponent(inputValue))
+            .then(response => {
+                if (response.ok) {
+                    inputElement.style.backgroundColor = 'white'; // 有效值
+                } else {
+                    inputElement.style.backgroundColor = 'lightcoral'; // 无效值
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                inputElement.style.backgroundColor = 'lightcoral'; // 请求失败，假定为无效值
+            });
+    }
+</script>
+
+
+
+<div class="text-center">
+    <form method="post" action="/Index">
+    <table>
+        <tr>
+            <tr colspan="4">
+                    @if(Model.hasUnsavedChanges)
+                    {
+                        <div>Has unsaved changes.</div>
+                    }
+                    else
+                    {
+                        <div></div>
+                    }
+                </tr>
+        </tr>
+        @foreach (var property in Model.PalWorldSettings.GetType().GetProperties())
+        {
+            <tr>
+                <td>@property.Name</td>
+                <td>
+                    @if (Model.SettingsDesc.ContainsKey(property.Name))
+                    {
+                        @Model.SettingsDesc[property.Name]
+                    }
+                </td>
+                <td>
+                    @if (property.Name == "Difficulty")
+                    {
+                        var difficultyValue = property.GetValue(Model.PalWorldSettings).ToString();
+                        <select id="Difficulty" name="Difficulty">
+                                <option value="None" selected="@(difficultyValue == "None" ? "selected" : null)">None</option>
+                                <option value="Easy" selected="@(difficultyValue == "Easy" ? "selected" : null)">Easy</option>
+                                <option value="Normal" selected="@(difficultyValue == "Normal" ? "selected" : null)">Normal</option>
+                                <option value="Hard" selected="@(difficultyValue == "Hard" ? "selected" : null)">Hard</option>
+                                <option value="Custom" selected="@(difficultyValue == "Custom" ? "selected" : null)">Custom</option>
+                        </select>
+                    }
+                    else if (property.Name == "DeathPenalty")
+                    {
+                        var deathPenaltyValue = property.GetValue(Model.PalWorldSettings).ToString();
+                        <select id="DeathPenalty" name="DeathPenalty">
+                            <option value="None" selected="@(deathPenaltyValue == "None" ? "selected" : null)">None</option>
+                            <option value="Item" selected="@(deathPenaltyValue == "Item" ? "selected" : null)">Item</option>
+                            <option value="ItemAndEquipment" selected="@(deathPenaltyValue == "ItemAndEquipment" ? "selected" : null)">ItemAndEquipment</option>
+                            <option value="All" selected="@(deathPenaltyValue == "All" ? "selected" : null)">All</option>
+                        </select>
+                    }
+                    else if (property.PropertyType == typeof(bool))
+                    {
+                        bool isSelected = (bool)property.GetValue(Model.PalWorldSettings);
+                        <select id="@property.Name" name="@property.Name">
+                            <option value="true" selected="@(isSelected ? "selected" : null)">True</option>
+                            <option value="false" selected="@(!isSelected ? "selected" : null)">False</option>
+                        </select>
+                    }
+                    else if (property.PropertyType == typeof(float))
+                    {
+                        <input type="text" id="@property.Name" name="@property.Name" style="text-align: left;" value="@(((float)property.GetValue(Model.PalWorldSettings)).ToString("F6"))" onchange="validateInput(this)" />
+                    }
+                    else
+                    {
+                        <input type="text" id="@property.Name" name="@property.Name" value="@property.GetValue(Model.PalWorldSettings)" onchange="validateInput(this)" onchange="validateInput(this)" />
+                    }
+                   
+                </td>
+                <td>
+                    @if (Model.SettingsDesc2.ContainsKey(property.Name))
+                    {
+                        @Model.SettingsDesc2[property.Name]
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+        <button type="submit" class="btn btn-primary">Save Settings</button>
+    </form>
+</div>
