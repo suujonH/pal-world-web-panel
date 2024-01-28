@@ -21,8 +21,8 @@
         <thead>
             <tr>
                 <th>Online Players: @(Model.ClientList.Count() - 1)</th>
-                <th>PalService Mem(GB): @((Model.PalServiceMem / 1024 / 1024 / 1024).ToString("F1"))</th>
-                <th>Available Physical Memory(GB): @((Model.AvailablePhysicalMemory / 1024 / 1024).ToString("F1")) / @((Model.TotalPhysicalMemory / 1024 / 1024).ToString("F1"))</th>
+                <th>PalService Mem(GB): @((Model.PalServiceMem / 1024 / 1024 / 1024.0).ToString("F1"))</th>
+                <th>Available Physical Memory(GB): @((Model.AvailablePhysicalMemory / 1024 / 1024.0).ToString("F1")) / @((Model.TotalPhysicalMemory / 1024 / 1024.0).ToString("F1"))</th>
             </tr>
         </thead>
         <tbody>
